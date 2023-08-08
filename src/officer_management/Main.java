@@ -8,12 +8,53 @@ public class Main {
         SEARCH_OFFICER,
         GET_ALL_OFFICER,
         EXIT;
+
+        private int value;
+
+        public static ACTION getAction(int input) {
+            switch (input) {
+                case 1 -> {
+                    return ACTION.ADD_OFFICER;
+                }
+                case 2 -> {
+                    return ACTION.SEARCH_OFFICER;
+                }
+                case 3 -> {
+                    return ACTION.GET_ALL_OFFICER;
+                }
+                case 4 -> {
+                    return ACTION.EXIT;
+                }
+                default -> {
+                    return null;
+                }
+            }
+        }
     }
 
     static enum JOB_TITLE {
         EMPLOYEE,
         WORKER,
-        ENGINEER,
+        ENGINEER;
+
+        private int value;
+
+        public static JOB_TITLE getJobTitle(int input) {
+            switch (input) {
+                case 1 -> {
+                    return EMPLOYEE;
+                }
+                case 2 -> {
+                    return WORKER;
+                }
+                case 3 -> {
+                    return ENGINEER;
+                }
+                default -> {
+                    return null;
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {
@@ -31,33 +72,22 @@ public class Main {
             action = null;
             try {
                 input = scanner.nextInt();
-                if (input != 1 && input != 2 && input != 3 && input != 4) throw new Exception("Please enter 1 or 2 or 3");
-                switch (input) {
-                    case 1 -> action = ACTION.ADD_OFFICER;
-                    case 2 -> action = ACTION.SEARCH_OFFICER;
-                    case 3 -> action = ACTION.GET_ALL_OFFICER;
-                    case 4 -> action = ACTION.EXIT;
-                }
+                if (input != 1 && input != 2 && input != 3 && input != 4)
+                    throw new Exception("Please enter 1 or 2 or 3");
             } catch (Exception error) {
                 System.out.println(error.toString());
             }
 
             scanner.nextLine();
-            switch (action) {
+            switch (ACTION.getAction(input)) {
                 case ADD_OFFICER -> {
                     JOB_TITLE userJobTitle = null;
                     System.out.println("Please enter officer job title");
                     System.out.println("Enter 1 to add a worker, 2 to add a employee, 3 to add a engineer and 4 to come back");
                     input = scanner.nextInt();
                     scanner.nextLine();
-                    switch (input) {
-                        case 1 -> userJobTitle = JOB_TITLE.WORKER;
-                        case 2 -> userJobTitle = JOB_TITLE.EMPLOYEE;
-                        case 3 -> userJobTitle = JOB_TITLE.ENGINEER;
-                        case default -> System.out.println("Please input in 1 or 2 or 3");
-                    }
 
-                    switch (userJobTitle) {
+                    switch (JOB_TITLE.getJobTitle(input)) {
                         case WORKER -> {
                             System.out.println("Please worker information");
                             System.out.print("Name: ");
@@ -70,7 +100,7 @@ public class Main {
                             System.out.print("Rank: ");
                             int rank = scanner.nextInt();
                             scanner.nextLine();
-                            Worker worker = new Worker(sex, name, age, rank);
+                            Officer worker = new Worker(sex, name, age, rank);
                             OfficerManagement.addOfficer(worker);
                             System.out.println(worker.getOfficerInformation());
                         }
